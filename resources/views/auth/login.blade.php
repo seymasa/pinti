@@ -24,22 +24,22 @@
                 <div class="content">
 
                     <!-- Advanced login -->
-                    <form action="http://demo.interface.club/limitless/layout_1/LTR/default/index.html">
+                    {!! Form::open(['route' => 'auth.login']) !!}
                         <div class="panel panel-body login-form">
                             <div class="text-center">
                                 <div class="icon-object border-warning-400 text-warning-400"><i class="icon-people"></i></div>
-                                <h5 class="content-group-lg">Login to your account <small class="display-block">Enter your credentials</small></h5>
+                                <h5 class="content-group-lg">{{ trans('login.login') }} <small class="display-block">{{ trans('login.enter-credentials') }}</small></h5>
                             </div>
 
                             <div class="form-group has-feedback has-feedback-left">
-                                <input type="text" class="form-control" placeholder="Username">
+                                {!! Form::email('email', old('email'), ["class" => "form-control", "placeholder" => trans('user.email')]) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-user text-muted"></i>
                                 </div>
                             </div>
 
                             <div class="form-group has-feedback has-feedback-left">
-                                <input type="password" class="form-control" placeholder="Password">
+                                {!! Form::password('password', ['class' => 'form-control', 'placeholder' => trans('user.password')]) !!}
                                 <div class="form-control-feedback">
                                     <i class="icon-lock2 text-muted"></i>
                                 </div>
@@ -49,21 +49,24 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label class="checkbox-inline">
-                                            <input type="checkbox" class="styled" checked="checked">
-                                            Remember
+                                            {!! Form::checkbox('remember', true, old('remember') ? old('remember') : true, ["class" => "styled"]) !!}
+                                            {{ trans('login.remember') }}
                                         </label>
                                     </div>
 
+                                    <!--
                                     <div class="col-sm-6 text-right">
                                         <a href="login_password_recover.html">Forgot password?</a>
                                     </div>
+                                    -->
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="btn bg-blue btn-block">Login <i class="icon-circle-right2 position-right"></i></button>
+                                {!! Form::button(trans('login.button').' <i class="icon-circle-right2 position-right"></i>', ["type" => "submit", "class" => "btn bg-blue btn-block"]) !!}
                             </div>
 
+                            <!--
                             <div class="content-divider text-muted form-group"><span>or sign in with</span></div>
                             <ul class="list-inline form-group list-inline-condensed text-center">
                                 <li><a href="#" class="btn border-indigo text-indigo btn-flat btn-icon btn-rounded"><i class="icon-facebook"></i></a></li>
@@ -71,12 +74,13 @@
                                 <li><a href="#" class="btn border-slate-600 text-slate-600 btn-flat btn-icon btn-rounded"><i class="icon-github"></i></a></li>
                                 <li><a href="#" class="btn border-info text-info btn-flat btn-icon btn-rounded"><i class="icon-twitter"></i></a></li>
                             </ul>
+                            -->
 
-                            <div class="content-divider text-muted form-group"><span>Don't have an account?</span></div>
-                            <a href="login_registration.html" class="btn bg-slate btn-block content-group">Register</a>
-                            <span class="help-block text-center no-margin">By continuing, you're confirming that you've read our <a href="#">Terms &amp; Conditions</a> and <a href="#">Cookie Policy</a></span>
+                            <div class="content-divider text-muted form-group"><span>{{ trans('login.have-not-account') }}</span></div>
+                            <a href="{{ route('auth.register') }}" class="btn bg-slate btn-block content-group">{{ trans('login.register') }}</a>
+                            <span class="help-block text-center no-margin">{!! trans('login.warning', ['terms' => "#terms", "cookie" => "#cookie"]) !!}</span>
                         </div>
-                    </form>
+                    {!! Form::close() !!}
                     <!-- /advanced login -->
 
                 </div>
