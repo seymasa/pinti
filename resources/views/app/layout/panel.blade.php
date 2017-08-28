@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('app.layout.master')
 
 @section('body')
     <!-- Main navbar -->

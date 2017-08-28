@@ -1,4 +1,4 @@
-@extends('layout.master')
+@extends('app.layout.master')
 
 @section('body.class', 'login-container bg-slate-800')
 
@@ -24,12 +24,14 @@
                 <div class="content">
 
                     <!-- Advanced login -->
-                    {!! Form::open(['route' => 'auth.login']) !!}
+                    {!! Form::open(['route' => 'app.auth.login']) !!}
                         <div class="panel panel-body login-form">
                             <div class="text-center">
                                 <div class="icon-object border-warning-400 text-warning-400"><i class="icon-people"></i></div>
                                 <h5 class="content-group-lg">{{ trans('login.login') }} <small class="display-block">{{ trans('login.enter-credentials') }}</small></h5>
                             </div>
+
+                            @include("app.include.errors")
 
                             <div class="form-group has-feedback has-feedback-left">
                                 {!! Form::email('email', old('email'), ["class" => "form-control", "placeholder" => trans('user.email')]) !!}
@@ -66,19 +68,9 @@
                                 {!! Form::button(trans('login.button').' <i class="icon-circle-right2 position-right"></i>', ["type" => "submit", "class" => "btn bg-blue btn-block"]) !!}
                             </div>
 
-                            <!--
-                            <div class="content-divider text-muted form-group"><span>or sign in with</span></div>
-                            <ul class="list-inline form-group list-inline-condensed text-center">
-                                <li><a href="#" class="btn border-indigo text-indigo btn-flat btn-icon btn-rounded"><i class="icon-facebook"></i></a></li>
-                                <li><a href="#" class="btn border-pink-300 text-pink-300 btn-flat btn-icon btn-rounded"><i class="icon-dribbble3"></i></a></li>
-                                <li><a href="#" class="btn border-slate-600 text-slate-600 btn-flat btn-icon btn-rounded"><i class="icon-github"></i></a></li>
-                                <li><a href="#" class="btn border-info text-info btn-flat btn-icon btn-rounded"><i class="icon-twitter"></i></a></li>
-                            </ul>
-                            -->
-
                             <div class="content-divider text-muted form-group"><span>{{ trans('login.have-not-account') }}</span></div>
-                            <a href="{{ route('auth.register') }}" class="btn bg-slate btn-block content-group">{{ trans('login.register') }}</a>
-                            <span class="help-block text-center no-margin">{!! trans('login.warning', ['terms' => "#terms", "cookie" => "#cookie"]) !!}</span>
+                            <a href="{{ route('app.auth.register') }}" class="btn bg-slate btn-block content-group">{{ trans('login.register') }}</a>
+                            <span class="help-block text-center no-margin">{!! trans('keywords.terms', ['terms' => "#terms", "cookie" => "#cookie"]) !!}</span>
                         </div>
                     {!! Form::close() !!}
                     <!-- /advanced login -->

@@ -1,24 +1,40 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+/**
+ * FRONT-OFFICE
+ */
 
-Route::get('/', function () {
-    return view('home.index');
+Route::group(["as" => "front.", "namespace" => "Front"], function(){
+    Route::get("/", ["as" => "home.index", "uses" => "HomeController@index"]);
 });
 
-Route::get('login', function() {
-    return view('auth.login');
-})->name('auth.login');
+/**
+ * APPLICATION
+ */
 
-Route::get('register', function() {
-    return view('auth.register');
-})->name('auth.register');
+Route::group(["as" => "app.", "namespace" => "App", "prefix" => "app"], function(){
+
+    // User Authenticated Group
+    Route::group(["middleware" => ["auth"]], function(){
+
+        Route::get("/", ["as" => "dashboard.index", "uses" => "DashboardController@index"]);
+
+        Route::get('logout', function(){
+            auth()->logout();
+        });
+
+    });
+
+    // Guest Group
+    Route::group(["middleware" => ["guest"]], function(){
+
+        Route::group(["as" => "auth."], function(){
+            Route::get("login", ["as" => "login", "uses" => "AuthController@login"]);
+            Route::post("login", ["as" => "login", "uses" => "AuthController@doLogin"]);
+
+            Route::get("register", ["as" => "register", "uses" => "AuthController@register"]);
+            Route::post("register", ["as" => "register", "uses" => "AuthController@doRegister"]);
+        });
+
+    });
+});
