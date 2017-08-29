@@ -50,4 +50,30 @@ class User extends Authenticatable
     public function groups() {
         return $this->belongsToMany('App\Group');
     }
+
+    public function getFullnameAttribute() {
+        $result = null;
+
+        if ($this->profile){
+            if ($this->profile->firstname)
+                $result = $this->profile->firstname;
+
+            if ($this->profile->surname)
+                $result .= " ".$this->profile->surname;
+
+            if (!$this->profile->firstname && !$this->profile->surname)
+                $result = $this->email;
+        }
+
+        return $result;
+    }
+
+    public function getPhotoAttribute() {
+
+        if($this->profile && $this->profile->photo)
+            return asset($this->profile->photo);
+        else
+            return "https://api.adorable.io/avatars/285/".$this->email.".png";
+
+    }
 }

@@ -19,9 +19,13 @@ Route::group(["as" => "app.", "namespace" => "App", "prefix" => "app"], function
 
         Route::get("/", ["as" => "dashboard.index", "uses" => "DashboardController@index"]);
 
-        Route::get('logout', function(){
-            auth()->logout();
+        Route::group(["as" => "profile.", "prefix" => "profile"], function(){
+            Route::get("/", ["as" => "me", "uses" => "ProfileController@me"]);
         });
+
+        Route::get("settings", ["as" => "auth.settings", "uses" => "AuthController@settings"]);
+        Route::put("settings", ["as" => "auth.settings", "uses" => "AuthController@updateSettings"]);
+        Route::get("logout", ["as" => "auth.logout", "uses" => "AuthController@logout"]);
 
     });
 
